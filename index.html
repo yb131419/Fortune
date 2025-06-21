@@ -1,164 +1,176 @@
-<style>
-  /* 整體背景和字體 */
-  body {
-    background: linear-gradient(135deg, #0d47a1, #1976d2);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #e3f2fd;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding: 60px 20px;
-  }
-
-  .container {
-    background: rgba(255 255 255 / 0.12);
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(25, 118, 210, 0.5);
-    padding: 40px 50px 50px;
-    width: 420px;
-    max-width: 95vw;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    text-align: center;
-  }
-
-  h1.title {
-    margin-bottom: 30px;
-    font-weight: 900;
-    font-size: 32px;
-    color: #bbdefb;
-    text-shadow: 0 0 15px #90caf9;
-  }
-
-  input#inputText {
-    width: 100%;
-    padding: 14px 18px;
-    border-radius: 12px;
-    border: none;
-    font-size: 18px;
-    font-weight: 600;
-    color: #0d47a1;
-    background: #e3f2fd;
-    box-shadow: inset 0 0 8px #64b5f6aa;
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-  }
-
-  input#inputText::placeholder {
-    color: #90caf9;
-    font-weight: 500;
-  }
-
-  input#inputText:focus {
-    outline: none;
-    background-color: #ffffff;
-    box-shadow: 0 0 18px #64b5f6cc;
-  }
-
-  button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 16px 0;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(90deg, #2196f3, #1565c0);
-    font-size: 20px;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    box-shadow: 0 6px 22px #1565c0cc;
-    transition: background 0.4s ease, box-shadow 0.3s ease;
-    user-select: none;
-  }
-
-  button:hover {
-    background: linear-gradient(90deg, #42a5f5, #1e88e5);
-    box-shadow: 0 8px 28px #1e88e5dd;
-  }
-
-  button:active {
-    transform: scale(0.97);
-  }
-
-  #result {
-    margin-top: 32px;
-    background: rgba(255 255 255 / 0.15);
-    border-radius: 16px;
-    padding: 25px 30px;
-    box-shadow: 0 8px 22px rgba(21, 101, 192, 0.5);
-    font-size: 16px;
-    line-height: 1.5;
-    color: #bbdefb;
-    min-height: 160px;
-    user-select: text;
-    white-space: pre-line;
-    text-align: left;
-  }
-
-  #result h3 {
-    font-weight: 700;
-    font-size: 22px;
-    margin-bottom: 14px;
-    color: #e3f2fd;
-    text-shadow: 0 0 10px #64b5f6;
-  }
-
-  #result p {
-    margin: 8px 0;
-  }
-
-  #result p[id="aiComment"] {
-    margin-top: 20px;
-    font-style: italic;
-    font-size: 17px;
-    color: #bbdefb;
-    text-shadow: 0 0 8px #bbdefbaa;
-  }
-
-  #result p[style*="color:red"] {
-    font-weight: 700;
-    font-size: 16px;
-    text-shadow: 0 0 7px #ff5252;
-    color: #ff5252 !important;
-  }
-</style>
-
-<div class="container">
-  <h1 class="title">彥彬數字風水</h1>
-  <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
-  <button onclick="analyze()">開始分析</button>
-  <div id="result"></div>
-</div>
-
-<script>
-  function analyze() {
-    const input = document.getElementById("inputText").value.trim();
-    if (!input) {
-      alert("請輸入手機號碼或英文姓名");
-      return;
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>彥彬數字風水</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* === 深藍色系高質感樣式 === */
+    body {
+      background: linear-gradient(135deg, #001529, #003a75);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #cbd6e8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 60px 20px;
+      user-select: none;
     }
-    const oldScript = document.getElementById("jsonpScript");
-    if (oldScript) oldScript.remove();
 
-    const script = document.createElement("script");
-    script.id = "jsonpScript";
-    script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
-    document.body.appendChild(script);
-  }
-
-  function showResult(data) {
-    if (data.error) {
-      document.getElementById("result").innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
-      return;
+    .container {
+      background: rgba(255 255 255 / 0.08);
+      border-radius: 24px;
+      box-shadow: 0 12px 40px rgba(0, 57, 115, 0.9);
+      padding: 48px 56px 56px;
+      width: 440px;
+      max-width: 95vw;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      text-align: center;
+      user-select: text;
     }
-    document.getElementById("result").innerHTML = `
-      <h3>輸入：${data.input}</h3>
-      <p>數字轉換後：${data.numericStr}</p>
-      <p>八星統計：${data.summary}</p>
-      <p>主導星曜：${data.dominant}星</p>
-      <p id="aiComment"></p>
-    `;
-    document.getElementById("aiComment").textContent = `彥彬 評語：${data.comment}`;
-    console.log("彥彬 評語全文:", data.comment);
-  }
-</script>
+
+    h1.title {
+      margin-bottom: 38px;
+      font-weight: 900;
+      font-size: 36px;
+      color: #a9b8d7;
+      text-shadow: 0 0 12px #305f99cc, 0 0 18px #6094e7cc;
+    }
+
+    input#inputText {
+      width: 100%;
+      padding: 16px 22px;
+      border-radius: 16px;
+      border: none;
+      font-size: 20px;
+      font-weight: 600;
+      color: #003a75;
+      background: #d9e3f7;
+      box-shadow: inset 0 0 14px #6e8bc6aa;
+      transition: box-shadow 0.35s ease, background-color 0.35s ease;
+      user-select: text;
+    }
+
+    input#inputText::placeholder {
+      color: #7891bf;
+      font-weight: 500;
+    }
+
+    input#inputText:focus {
+      outline: none;
+      background-color: #f3f7ff;
+      box-shadow: 0 0 28px #3d63c9dd;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      padding: 18px 0;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(90deg, #325cad, #1a3f7a);
+      font-size: 22px;
+      font-weight: 700;
+      color: #dde7fb;
+      cursor: pointer;
+      box-shadow: 0 8px 28px #1a3f7acc, inset 0 -3px 6px #3d63c9aa;
+      transition: background 0.5s ease, box-shadow 0.35s ease, transform 0.15s ease;
+      user-select: none;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #4471c4, #2e5096);
+      box-shadow: 0 10px 36px #2e5096dd, inset 0 -4px 8px #5982d4cc;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    #result {
+      margin-top: 36px;
+      background: rgba(255 255 255 / 0.1);
+      border-radius: 20px;
+      padding: 28px 36px;
+      box-shadow: 0 12px 32px rgba(0, 57, 115, 0.85);
+      font-size: 17px;
+      line-height: 1.6;
+      color: #a9b8d7;
+      min-height: 180px;
+      user-select: text;
+      white-space: pre-line;
+      text-align: left;
+    }
+
+    #result h3 {
+      font-weight: 800;
+      font-size: 24px;
+      margin-bottom: 16px;
+      color: #c7d1f0;
+      text-shadow: 0 0 14px #5a7fc9cc;
+    }
+
+    #result p {
+      margin: 10px 0;
+    }
+
+    #result p[id="aiComment"] {
+      margin-top: 24px;
+      font-style: italic;
+      font-size: 18px;
+      color: #9fb2db;
+      text-shadow: 0 0 10px #9fb2dbaa;
+    }
+
+    #result p[style*="color:red"] {
+      font-weight: 700;
+      font-size: 17px;
+      text-shadow: 0 0 9px #ff6666;
+      color: #ff6666 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">彥彬數字風水</h1>
+    <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
+    <button onclick="analyze()">開始分析</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function analyze() {
+      const input = document.getElementById("inputText").value.trim();
+      if (!input) {
+        alert("請輸入手機號碼或英文姓名");
+        return;
+      }
+      const oldScript = document.getElementById("jsonpScript");
+      if (oldScript) oldScript.remove();
+
+      const script = document.createElement("script");
+      script.id = "jsonpScript";
+      script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
+      document.body.appendChild(script);
+    }
+
+    function showResult(data) {
+      if (data.error) {
+        document.getElementById("result").innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
+        return;
+      }
+      document.getElementById("result").innerHTML = `
+        <h3>輸入：${data.input}</h3>
+        <p>數字轉換後：${data.numericStr}</p>
+        <p>八星統計：${data.summary}</p>
+        <p>主導星曜：${data.dominant}星</p>
+        <p id="aiComment"></p>
+      `;
+      document.getElementById("aiComment").textContent = `彥彬 評語：${data.comment}`;
+      console.log("彥彬 評語全文:", data.comment);
+    }
+  </script>
+</body>
+</html>
