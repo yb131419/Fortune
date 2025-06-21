@@ -1,11 +1,21 @@
-<input id="inputText" placeholder="請輸入手機號碼或英文姓名">
+<!-- 前端 HTML + JS -->
+<input id="inputText" placeholder="請輸入手機號碼或英文姓名" style="width:300px; padding:5px;">
 <button onclick="analyze()">開始分析</button>
-<div id="result"></div>
+<div id="result" style="margin-top:15px;"></div>
 
 <script>
   function analyze() {
     const input = document.getElementById("inputText").value.trim();
+    if (!input) {
+      alert("請輸入手機號碼或英文姓名");
+      return;
+    }
+    // 移除之前動態加入的 script，避免多次請求干擾
+    const oldScript = document.getElementById("jsonpScript");
+    if (oldScript) oldScript.remove();
+
     const script = document.createElement("script");
+    script.id = "jsonpScript";
     script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
     document.body.appendChild(script);
   }
@@ -20,7 +30,10 @@
       <p>數字轉換後：${data.numericStr}</p>
       <p>八星統計：${data.summary}</p>
       <p>主導星曜：${data.dominant}星</p>
-      <p>AI 評語：${data.comment}</p>
+      <p id="aiComment"></p>
     `;
+    // 使用 textContent 避免斷句或特殊字元問題
+    document.getElementById("aiComment").textContent = `AI 評語：${data.comment}`;
+    console.log("AI 評語全文:", data.comment);
   }
 </script>
