@@ -1,9 +1,9 @@
 <style>
   /* 整體背景和字體 */
   body {
-    background: linear-gradient(135deg, #4b0082, #8a2be2);
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #f0eaff;
+    color: #e3f2fd;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -12,14 +12,23 @@
   }
 
   .container {
-    background: rgba(255 255 255 / 0.1);
+    background: rgba(255 255 255 / 0.12);
     border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(138, 43, 226, 0.5);
+    box-shadow: 0 8px 30px rgba(25, 118, 210, 0.5);
     padding: 40px 50px 50px;
-    width: 400px;
+    width: 420px;
     max-width: 95vw;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    text-align: center;
+  }
+
+  h1.title {
+    margin-bottom: 30px;
+    font-weight: 900;
+    font-size: 32px;
+    color: #bbdefb;
+    text-shadow: 0 0 15px #90caf9;
   }
 
   input#inputText {
@@ -29,21 +38,21 @@
     border: none;
     font-size: 18px;
     font-weight: 600;
-    color: #4b0082;
-    background: #f0eaff;
-    box-shadow: inset 0 0 6px #a085ffaa;
+    color: #0d47a1;
+    background: #e3f2fd;
+    box-shadow: inset 0 0 8px #64b5f6aa;
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
   }
 
   input#inputText::placeholder {
-    color: #b3a3f5;
+    color: #90caf9;
     font-weight: 500;
   }
 
   input#inputText:focus {
     outline: none;
-    background-color: #fff;
-    box-shadow: 0 0 15px #bb99ffcc;
+    background-color: #ffffff;
+    box-shadow: 0 0 18px #64b5f6cc;
   }
 
   button {
@@ -52,19 +61,19 @@
     padding: 16px 0;
     border-radius: 12px;
     border: none;
-    background: linear-gradient(90deg, #9c27b0, #7b1fa2);
+    background: linear-gradient(90deg, #2196f3, #1565c0);
     font-size: 20px;
     font-weight: 700;
     color: white;
     cursor: pointer;
-    box-shadow: 0 6px 20px #7b1fa2cc;
+    box-shadow: 0 6px 22px #1565c0cc;
     transition: background 0.4s ease, box-shadow 0.3s ease;
     user-select: none;
   }
 
   button:hover {
-    background: linear-gradient(90deg, #b452d1, #8a3ab7);
-    box-shadow: 0 8px 25px #8a3ab7dd;
+    background: linear-gradient(90deg, #42a5f5, #1e88e5);
+    box-shadow: 0 8px 28px #1e88e5dd;
   }
 
   button:active {
@@ -76,20 +85,22 @@
     background: rgba(255 255 255 / 0.15);
     border-radius: 16px;
     padding: 25px 30px;
-    box-shadow: 0 8px 20px rgba(75, 0, 130, 0.5);
+    box-shadow: 0 8px 22px rgba(21, 101, 192, 0.5);
     font-size: 16px;
     line-height: 1.5;
-    color: #e3dfff;
-    min-height: 150px;
+    color: #bbdefb;
+    min-height: 160px;
     user-select: text;
     white-space: pre-line;
+    text-align: left;
   }
 
   #result h3 {
     font-weight: 700;
     font-size: 22px;
     margin-bottom: 14px;
-    text-shadow: 0 0 10px #a685ff;
+    color: #e3f2fd;
+    text-shadow: 0 0 10px #64b5f6;
   }
 
   #result p {
@@ -100,18 +111,20 @@
     margin-top: 20px;
     font-style: italic;
     font-size: 17px;
-    color: #d1c4e9;
-    text-shadow: 0 0 6px #d1c4e9aa;
+    color: #bbdefb;
+    text-shadow: 0 0 8px #bbdefbaa;
   }
 
   #result p[style*="color:red"] {
     font-weight: 700;
     font-size: 16px;
-    text-shadow: 0 0 5px #ff5c5c;
+    text-shadow: 0 0 7px #ff5252;
+    color: #ff5252 !important;
   }
 </style>
 
 <div class="container">
+  <h1 class="title">彥彬數字風水</h1>
   <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
   <button onclick="analyze()">開始分析</button>
   <div id="result"></div>
