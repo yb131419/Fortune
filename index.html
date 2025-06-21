@@ -2,140 +2,121 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>彥彬數字風水</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>彥彬🔮數字風水</title>
   <style>
-    /* === 深藍色系高質感樣式 === */
     body {
-      background: linear-gradient(135deg, #001529, #003a75);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #cbd6e8;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #0a0f1e, #152343);
+      color: #dce3f1;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       min-height: 100vh;
-      padding: 60px 20px;
-      user-select: none;
+      padding: 40px 16px;
     }
 
     .container {
-      background: rgba(255 255 255 / 0.08);
-      border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(0, 57, 115, 0.9);
-      padding: 48px 56px 56px;
-      width: 440px;
-      max-width: 95vw;
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
-      text-align: center;
-      user-select: text;
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 32px 24px;
+      box-sizing: border-box;
     }
 
-    h1.title {
-      margin-bottom: 38px;
+    .title {
+      text-align: center;
+      font-size: 28px;
       font-weight: 900;
-      font-size: 36px;
-      color: #a9b8d7;
-      text-shadow: 0 0 12px #305f99cc, 0 0 18px #6094e7cc;
+      color: #c5d8f1;
+      margin-bottom: 24px;
+      text-shadow: 0 0 10px #324d8a;
     }
 
     input#inputText {
       width: 100%;
-      padding: 16px 22px;
-      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 18px;
       border: none;
-      font-size: 20px;
-      font-weight: 600;
-      color: #003a75;
-      background: #d9e3f7;
-      box-shadow: inset 0 0 14px #6e8bc6aa;
-      transition: box-shadow 0.35s ease, background-color 0.35s ease;
-      user-select: text;
+      border-radius: 12px;
+      background-color: #f0f4ff;
+      color: #1b2d4f;
+      box-shadow: inset 0 0 8px rgba(100, 120, 200, 0.3);
     }
 
     input#inputText::placeholder {
-      color: #7891bf;
+      color: #98a6c2;
       font-weight: 500;
     }
 
     input#inputText:focus {
       outline: none;
-      background-color: #f3f7ff;
-      box-shadow: 0 0 28px #3d63c9dd;
+      background: #ffffff;
+      box-shadow: 0 0 12px #4c6fe9aa;
     }
 
     button {
-      margin-top: 24px;
       width: 100%;
-      padding: 18px 0;
-      border-radius: 16px;
+      margin-top: 20px;
+      padding: 16px 0;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background: linear-gradient(90deg, #304c89, #1a2f5c);
       border: none;
-      background: linear-gradient(90deg, #325cad, #1a3f7a);
-      font-size: 22px;
-      font-weight: 700;
-      color: #dde7fb;
-      cursor: pointer;
-      box-shadow: 0 8px 28px #1a3f7acc, inset 0 -3px 6px #3d63c9aa;
-      transition: background 0.5s ease, box-shadow 0.35s ease, transform 0.15s ease;
-      user-select: none;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(50, 80, 160, 0.6);
+      transition: 0.3s ease;
     }
 
     button:hover {
-      background: linear-gradient(90deg, #4471c4, #2e5096);
-      box-shadow: 0 10px 36px #2e5096dd, inset 0 -4px 8px #5982d4cc;
-    }
-
-    button:active {
-      transform: scale(0.96);
+      background: linear-gradient(90deg, #3f5ea5, #24396d);
+      box-shadow: 0 8px 26px rgba(80, 100, 180, 0.7);
     }
 
     #result {
-      margin-top: 36px;
-      background: rgba(255 255 255 / 0.1);
-      border-radius: 20px;
-      padding: 28px 36px;
-      box-shadow: 0 12px 32px rgba(0, 57, 115, 0.85);
-      font-size: 17px;
+      margin-top: 28px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 14px;
+      padding: 20px;
+      font-size: 16px;
       line-height: 1.6;
-      color: #a9b8d7;
-      min-height: 180px;
-      user-select: text;
-      white-space: pre-line;
-      text-align: left;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
 
     #result h3 {
-      font-weight: 800;
-      font-size: 24px;
-      margin-bottom: 16px;
-      color: #c7d1f0;
-      text-shadow: 0 0 14px #5a7fc9cc;
+      font-size: 18px;
+      color: #e0ecff;
+      margin-bottom: 10px;
     }
 
     #result p {
-      margin: 10px 0;
+      margin: 8px 0;
     }
 
-    #result p[id="aiComment"] {
-      margin-top: 24px;
+    #result p#aiComment {
+      margin-top: 16px;
       font-style: italic;
-      font-size: 18px;
-      color: #9fb2db;
-      text-shadow: 0 0 10px #9fb2dbaa;
+      color: #a9c1ee;
     }
 
     #result p[style*="color:red"] {
-      font-weight: 700;
-      font-size: 17px;
-      text-shadow: 0 0 9px #ff6666;
-      color: #ff6666 !important;
+      color: #ff6b6b !important;
+      font-weight: bold;
+      text-shadow: 0 0 6px #ff6b6b66;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1 class="title">彥彬數字風水</h1>
-    <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
+    <div class="title">🧧 彥彬數字風水 🔢</div>
+    <input id="inputText" placeholder="請輸入『號碼』或『英文』" autocomplete="off" />
     <button onclick="analyze()">開始分析</button>
     <div id="result"></div>
   </div>
@@ -162,14 +143,12 @@
         return;
       }
       document.getElementById("result").innerHTML = `
-        <h3>輸入：${data.input}</h3>
-        <p>數字轉換後：${data.numericStr}</p>
-        <p>八星統計：${data.summary}</p>
-        <p>主導星曜：${data.dominant}星</p>
-        <p id="aiComment"></p>
+        <h3>🔢 輸入：${data.input}</h3>
+        <p>📲 數字轉換後：${data.numericStr}</p>
+        <p>🌟 八星統計：${data.summary}</p>
+        <p>🔮 主導星曜：${data.dominant}星</p>
+        <p id="aiComment">📜✨ 彥彬 評語：${data.comment}</p>
       `;
-      document.getElementById("aiComment").textContent = `彥彬 評語：${data.comment}`;
-      console.log("彥彬 評語全文:", data.comment);
     }
   </script>
 </body>
