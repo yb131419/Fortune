@@ -1,0 +1,26 @@
+<input id="mobileInput" placeholder="請輸入完整手機號碼">
+<button onclick="analyze()">開始分析</button>
+<div id="result"></div>
+
+<script>
+  function analyze() {
+    const mobile = document.getElementById("mobileInput").value.trim();
+    const script = document.createElement("script");
+    script.src = `https://script.google.com/macros/s/YOUR_DEPLOY_ID/exec?mobile=${mobile}&callback=showResult`;
+    document.body.appendChild(script);
+  }
+
+  function showResult(data) {
+    if (data.error) {
+      document.getElementById("result").innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
+      return;
+    }
+
+    document.getElementById("result").innerHTML = `
+      <h3>📲 手機號碼分析結果</h3>
+      <p>⭐ 出現次數統計：${data.summary}</p>
+      <p>🌟 主導能量：${data.dominant}星</p>
+      <p>🔍 AI 分析：${data.comment}</p>
+    `;
+  }
+</script>
