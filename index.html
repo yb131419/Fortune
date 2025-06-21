@@ -1,26 +1,26 @@
-<input id="mobileInput" placeholder="請輸入完整手機號碼">
+<input id="inputText" placeholder="請輸入手機號碼或英文姓名">
 <button onclick="analyze()">開始分析</button>
 <div id="result"></div>
 
 <script>
   function analyze() {
-    const mobile = document.getElementById("mobileInput").value.trim();
+    const input = document.getElementById("inputText").value.trim();
     const script = document.createElement("script");
-    script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?mobile=${mobile}&callback=showResult`;
+    script.src = `https://script.google.com/macros/s/YOUR_DEPLOY_ID/exec?input=${encodeURIComponent(input)}&callback=showResult`;
     document.body.appendChild(script);
   }
 
   function showResult(data) {
-    if (data.error) {
+    if(data.error){
       document.getElementById("result").innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
       return;
     }
-
     document.getElementById("result").innerHTML = `
-      <h3>📲 手機號碼分析結果</h3>
-      <p>⭐ 出現次數統計：${data.summary}</p>
-      <p>🌟 主導能量：${data.dominant}星</p>
-      <p>🔍 AI 分析：${data.comment}</p>
+      <h3>輸入：${data.input}</h3>
+      <p>數字轉換後：${data.numericStr}</p>
+      <p>八星統計：${data.summary}</p>
+      <p>主導星曜：${data.dominant}星</p>
+      <p>AI 評語：${data.comment}</p>
     `;
   }
 </script>
