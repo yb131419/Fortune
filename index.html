@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>彥彬🔮數字風水分析</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root {
       --bg-dark: #0e162e;
@@ -29,13 +30,12 @@
 
     .container {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       background: var(--card-bg);
       border-radius: 20px;
       padding: 32px 24px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
     }
 
     .title {
@@ -49,48 +49,37 @@
 
     .inputBox {
       display: flex;
-      flex-direction: column;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     input#inputText {
-      width: 100%;
-      padding: 16px;
-      font-size: 18px;
+      flex: 1;
+      min-width: 180px;
+      padding: 14px;
+      font-size: 16px;
       border: none;
-      border-radius: 14px;
+      border-radius: 12px;
       background-color: var(--input-bg);
       color: #1b2d4f;
-      box-shadow: inset 0 0 8px rgba(120, 140, 210, 0.3);
-    }
-
-    input#inputText::placeholder {
-      color: #8a9bbd;
-      font-weight: 500;
-    }
-
-    input#inputText:focus {
-      outline: none;
-      background: #ffffff;
-      box-shadow: 0 0 12px #5a7ff1cc;
+      box-shadow: inset 0 0 6px rgba(120, 140, 210, 0.3);
     }
 
     button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 16px 0;
-      font-size: 20px;
+      flex-shrink: 0;
+      padding: 14px 18px;
+      font-size: 16px;
       font-weight: bold;
       color: white;
       background: linear-gradient(90deg, #3a58a3, #1f325f);
       border: none;
-      border-radius: 14px;
-      box-shadow: 0 8px 24px rgba(60, 90, 160, 0.6);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(60, 90, 160, 0.5);
       transition: all 0.3s ease;
     }
 
     button:hover {
       background: linear-gradient(90deg, #4e6ed0, #2b457e);
-      box-shadow: 0 10px 28px rgba(80, 110, 180, 0.75);
     }
 
     #result {
@@ -115,16 +104,42 @@
       margin: 10px 0;
     }
 
-    #result p#aiComment {
+    #aiComment {
       margin-top: 16px;
       font-style: italic;
       color: var(--text-accent);
     }
 
-    #result p[style*="color:red"] {
-      color: #ff6b6b !important;
+    .shareBox {
+      margin-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .shareBox button {
+      flex: 1;
+      background: #2f4f90;
+      padding: 12px;
+      font-size: 14px;
+      border-radius: 10px;
+    }
+
+    .luckyBox {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 12px;
+      margin-top: 12px;
+      border-left: 5px solid gold;
+      border-radius: 10px;
       font-weight: bold;
-      text-shadow: 0 0 6px #ff6b6b66;
+      color: #ffe766;
+      font-size: 15px;
+    }
+
+    @media (max-width: 400px) {
+      .inputBox {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -133,12 +148,24 @@
     <div class="title">🔢 彥彬數字風水分析</div>
     <div class="inputBox">
       <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
-      <button onclick="analyze()">開始分析</button>
+      <button onclick="analyze()">分析</button>
     </div>
     <div id="result"></div>
   </div>
 
   <script>
+    const luckyNumbersMap = {
+      "財富": ["168", "648", "139"],
+      "人緣": ["314", "276", "289"],
+      "成功": ["912", "634", "819"],
+      "桃花": ["647", "829", "138"],
+      "等待": ["222", "444", "888"],
+      "病痛": ["741", "893", "224"],
+      "凶險": ["444", "966", "248"],
+      "孤獨": ["121", "369", "084"],
+      "無明顯主星": ["000", "111", "999"]
+    };
+
     function analyze() {
       const input = document.getElementById("inputText").value.trim();
       const resultDiv = document.getElementById("result");
@@ -165,9 +192,8 @@
     function showResult(data) {
       const resultDiv = document.getElementById("result");
       const button = document.querySelector("button");
-
       button.disabled = false;
-      button.innerText = "開始分析";
+      button.innerText = "分析";
 
       if (data.error) {
         resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
@@ -178,13 +204,41 @@
         .replace(/\n/g, "<br>")
         .replace(/([。！？])<br>/g, "$1<br><br>");
 
+      const lucky = luckyNumbersMap[data.dominant] || ["111", "222"];
+      const luckyText = `🌟 推薦幸運號：${lucky.join("、")}`;
+
       resultDiv.innerHTML = `
-        <h3>輸入：${data.input}</h3>
-        <p>數字轉換後：${data.numericStr}</p>
-        <p>八星統計：${data.summary}</p>
-        <p>主導星曜：${data.dominant}星</p>
-        <p id="aiComment">🔍 彥彬評語：<br>${formattedComment}</p>
+        <div id="resultCard">
+          <h3>輸入：${data.input}</h3>
+          <p>數字轉換後：${data.numericStr}</p>
+          <p>八星統計：${data.summary}</p>
+          <p>主導星曜：${data.dominant}星</p>
+          <div id="aiComment">🔍 彥彬評語：<br>${formattedComment}</div>
+          <div class="luckyBox">${luckyText}</div>
+        </div>
+        <div class="shareBox">
+          <button onclick="saveAsImage()">📸 下載圖片</button>
+          <button onclick="copyText()">📋 複製文字</button>
+        </div>
       `;
+    }
+
+    function saveAsImage() {
+      const resultCard = document.getElementById("resultCard");
+      html2canvas(resultCard).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "數字風水分析.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
+    function copyText() {
+      const result = document.getElementById("resultCard");
+      const text = result.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("結果已複製！");
+      });
     }
   </script>
 </body>
