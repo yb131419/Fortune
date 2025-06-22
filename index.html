@@ -77,6 +77,17 @@
     .shareBox button {
       flex: 1;
     }
+
+    /* ✅ 截圖模式樣式修正 */
+    .screenshotMode {
+      background: #16233d !important;
+      color: #ffffff !important;
+    }
+    .screenshotMode .luckyBox {
+      background: none !important;
+      color: #ffe766 !important;
+      border-left: 4px solid gold !important;
+    }
   </style>
 </head>
 <body>
@@ -193,6 +204,9 @@ ${data.comment}
     if (!target) return alert("❗ 尚未有分析結果");
 
     try {
+      // ✅ 套用截圖樣式
+      target.classList.add("screenshotMode");
+
       const canvas = await html2canvas(target, { backgroundColor: null });
       const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
       const file = new File([blob], "彥彬數字分析.png", { type: "image/png" });
@@ -209,6 +223,9 @@ ${data.comment}
       }
     } catch (err) {
       alert("❌ 分享失敗：" + err.message);
+    } finally {
+      // ✅ 還原樣式
+      target.classList.remove("screenshotMode");
     }
   }
 </script>
