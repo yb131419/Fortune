@@ -198,6 +198,8 @@
 </head>
 
 <body>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
   <div class="container">
     <div class="title"> 🔢 彥彬數字風水分析
       <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
@@ -222,7 +224,22 @@
     "無明顯主星": ["000", "111", "999"]
   };
 
+  let userId = "";
+  let userName = "";
   let currentShareText = "";
+
+  // 初始化 LIFF
+  window.onload = async function () {
+    await liff.init({ liffId: "2007475335-1LbDw0QV" }); // ✅ 替換成你自己的 LIFF ID
+    if (!liff.isLoggedIn()) {
+      liff.login();
+      return;
+    }
+
+    const profile = await liff.getProfile();
+    userId = profile.userId;
+    userName = profile.displayName;
+  };
 
   function analyze() {
     const input = document.getElementById("inputText").value.trim();
@@ -240,10 +257,6 @@
 
     const oldScript = document.getElementById("jsonpScript");
     if (oldScript) oldScript.remove();
-
-    // 模擬 userId 與 name (請換成你真實取得的資料)
-    const userId = "U1234567890abcdef";
-    const userName = "彥彬";
 
     const script = document.createElement("script");
     script.id = "jsonpScript";
@@ -268,7 +281,6 @@
 
     const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
 
-    // 拼出一組 6 位數與一組 4 位數
     const getRandomCode = (length) => {
       let code = "";
       while (code.length < length) {
