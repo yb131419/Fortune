@@ -260,7 +260,7 @@ ${data.comment}
     if (!currentShareText) return alert("⚠️ 尚無分析結果可分享");
     if (navigator.share) {
       navigator.share({
-        title: "🔮 彥彬數字風水分析",
+        title: "🔮 彥彬數字風水",
         text: currentShareText
       }).catch(err => alert("❗ 分享取消：" + err.message));
     } else {
@@ -278,15 +278,15 @@ ${data.comment}
 
       const canvas = await html2canvas(target, { backgroundColor: null });
       const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
-      const file = new File([blob], "彥彬數字分析.png", { type: "image/png" });
+      const file = new File([blob], "彥彬數字風水.png", { type: "image/png" });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: "🔮 彥彬數字風水" });
+        await navigator.share({ files: [file], title: "彥彬🔮數字風水" });
       } else {
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
         link.href = url;
-        link.download = "彥彬數字分析.png";
+        link.download = "彥彬數字風水.png";
         link.click();
         URL.revokeObjectURL(url);
       }
