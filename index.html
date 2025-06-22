@@ -206,16 +206,29 @@
       .replace(/\n/g, "<br>")
       .replace(/([。！？])<br>/g, "$1<br><br>");
 
-    const lucky = luckyNumbersMap[data.dominant] || ["111", "222"];
-    const suggested = lucky[Math.floor(Math.random() * lucky.length)];
-    const luckyText = `🌟 推薦幸運號：${lucky.join("、")}<br>🎯 建議下一組號碼嘗試：${suggested}`;
+    const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
+
+    // 拼出一組 6 位數與一組 4 位數
+    const getRandomCode = (length) => {
+      let code = "";
+      while (code.length < length) {
+        const pick = luckyArray[Math.floor(Math.random() * luckyArray.length)];
+        code += pick;
+      }
+      return code.slice(0, length);
+    };
+
+    const lucky6 = getRandomCode(6);
+    const lucky4 = getRandomCode(4);
+    const luckyText = `🌟 推薦幸運號碼<br>🔢 6位數：${lucky6}<br>🔢 4位數：${lucky4}`;
 
     currentShareText = `🔢 數字分析｜${data.input}
 ✨ 主導星曜：${data.dominant}
 🔍 彥彬評語：
 ${data.comment}
-🌟 幸運號：${lucky.join("、")}
-➡️ 建議新號碼：${suggested}`;
+🌟 幸運號碼：
+6位數：${lucky6}
+4位數：${lucky4}`;
 
     resultDiv.innerHTML = `
       <div id="resultCard" style="background:rgba(255,255,255,0.08); padding:20px; border-radius:12px;">
@@ -250,6 +263,7 @@ ${data.comment}
     }
   }
 </script>
+
 
 
 
