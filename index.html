@@ -226,17 +226,21 @@
     document.body.appendChild(script);
   }
 
+  function linkify(text) {
+    const urlRegex = /(https?:\/\/[^\s<]+)/g;
+    return text.replace(urlRegex, url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
+  }
+
   function showResult(data) {
     const resultDiv = document.getElementById("result");
+
+    // 顯示錯誤訊息，並轉換為可點擊連結
     if (data.error) {
-      resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
+      let errorHtml = data.error.replace(/\n/g, "<br>");
+      errorHtml = linkify(errorHtml);
+      resultDiv.innerHTML = `<p style="color:red;">⚠️ ${errorHtml}</p>`;
       return;
     }
-  const resultDiv = document.getElementById("result");
-  if (data.error) {
-    resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
-    return;
-  }
 
     const formattedComment = data.comment.replace(/\n/g, "<br>").replace(/([。！？])<br>/g, "$1<br><br>");
     const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
@@ -245,33 +249,20 @@
       while (code.length < len) code += luckyArray[Math.floor(Math.random() * luckyArray.length)];
       return code.slice(0, len);
     };
-  const formattedComment = data.comment.replace(/\n/g, "<br>").replace(/([。！？])<br>/g, "$1<br><br>");
-  const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
-  const getRandomCode = (len) => {
-    let code = "";
-    while (code.length < len) code += luckyArray[Math.floor(Math.random() * luckyArray.length)];
-    return code.slice(0, len);
-  };
 
     const lucky6 = getRandomCode(6);
     const lucky4 = getRandomCode(4);
     const luckyText = `🌟 推薦幸運號碼<br>🔢 6位數：${lucky6}<br>🔢 4位數：${lucky4}`;
-  const lucky6 = getRandomCode(6);
-  const lucky4 = getRandomCode(4);
-  const luckyText = `🌟 推薦幸運號碼<br>🔢 6位數：${lucky6}<br>🔢 4位數：${lucky4}`;
 
-    // 顯示剩餘次數與管理資訊
     const quotaText = (data.quota === undefined || data.quota === null) ? "無限制" : data.quota;
-    const expireText = data.expireAt ? data.expireAt : "";
-  // 台北時間格式化有效期限
-  const expireText = data.expireAt
-    ? new Date(data.expireAt).toLocaleDateString('zh-TW', {
-        timeZone: 'Asia/Taipei',
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-    : "";
+    const expireText = data.expireAt
+      ? new Date(data.expireAt).toLocaleDateString('zh-TW', {
+          timeZone: 'Asia/Taipei',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        })
+      : "";
 
     resultDiv.innerHTML = `
       <div id="resultCard">
@@ -290,30 +281,9 @@
       </div>
       <div class="shareBox">
         <button onclick="shareAsImage()">📸 分享圖片</button>
-  const quotaText = (data.quota === undefined || data.quota === null) ? "無限制" : data.quota;
-
-  resultDiv.innerHTML = `
-    <div id="resultCard">
-      <h1>彥彬 🔮數字風水</h1>
-      <h3>查詢數字：${data.input}</h3>
-      <p>數字風水：${data.numericStr}</p>
-      <p>八星統計：${data.summary}</p>
-      <p>主導星曜：${data.dominant}星</p>
-      <div>🔍 彥彬評語：<br>${formattedComment}</div>
-      <div class="luckyBox">${luckyText}</div>
-      <div style="margin-top:16px; padding:12px; background:rgba(255,255,255,0.05); border-left:4px solid #80d4ff; border-radius:10px; font-size:14px;">
-        👤 使用者狀態：
-        <br>🔁 剩餘次數：<b>${quotaText}</b>
-        ${data.isAdmin ? `<br>🛡️ 有效期限至：<b>${expireText}</b>` : ""}
       </div>
     `;
   }
-    </div>
-    <div class="shareBox">
-      <button onclick="shareAsImage()">📸 分享圖片</button>
-    </div>
-  `;
-}
 
   async function shareAsImage() {
     const target = document.getElementById("resultCard");
@@ -342,5 +312,6 @@
     }
   }
 </script>
+
 </body>
 </html>
