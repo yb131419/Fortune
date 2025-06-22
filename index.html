@@ -199,7 +199,8 @@
 
 <body>
   <div class="container">
-    <div class="title"> 🔢 彥彬數字風水分析 <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
+    <div class="title"> 🔢 彥彬數字風水分析
+      <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
     </div>
     <div class="inputBox">
       <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
@@ -229,7 +230,7 @@
     const button = document.querySelector("button");
 
     if (!input) {
-      alert("請輸入手機號碼或英文姓名");
+      alert("請輸入『英文』或『數字』,『手機號碼』、『車號』、『身分證』都能使用");
       return;
     }
 
@@ -240,9 +241,13 @@
     const oldScript = document.getElementById("jsonpScript");
     if (oldScript) oldScript.remove();
 
+    // 模擬 userId 與 name (請換成你真實取得的資料)
+    const userId = "U1234567890abcdef";
+    const userName = "彥彬";
+
     const script = document.createElement("script");
     script.id = "jsonpScript";
-    script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
+    script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&userId=${encodeURIComponent(userId)}&name=${encodeURIComponent(userName)}&callback=showResult`;
     document.body.appendChild(script);
   }
 
@@ -318,9 +323,6 @@ ${data.comment}
     }
   }
 </script>
-
-
-
-
 </body>
+
 </html>
