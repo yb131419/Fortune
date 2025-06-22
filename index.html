@@ -2,35 +2,27 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <title>🔢 彥彬數字風水分析</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>彥彬🔮數字風水分析</title>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <style>
     body {
       margin: 0;
+      padding: 24px 12px;
       font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
       background: linear-gradient(145deg, #0a0f1e, #192c50);
-      color: #dce3f1;
-      padding: 40px 16px;
-      display: flex;
-      justify-content: center;
+      color: #eaf1ff;
     }
     .container {
       max-width: 500px;
-      width: 100%;
-      background: rgba(255,255,255,0.05);
-      border-radius: 20px;
-      padding: 32px 24px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-      backdrop-filter: blur(20px);
+      margin: auto;
     }
     .title {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
       text-align: center;
-      margin-bottom: 16px;
-      color: #e3ecff;
+      margin-bottom: 6px;
     }
     .subtitle {
       font-size: 14px;
@@ -40,52 +32,50 @@
     }
     .inputBox {
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
     }
-    #inputText {
+    input {
       flex: 1;
-      min-width: 180px;
-      padding: 14px;
+      padding: 12px;
       font-size: 16px;
+      border-radius: 8px;
       border: none;
-      border-radius: 12px;
-      background-color: #f0f4ff;
-      color: #1b2d4f;
     }
     button {
-      padding: 14px 18px;
-      font-size: 16px;
+      padding: 12px 16px;
+      font-size: 14px;
       font-weight: bold;
       color: white;
-      background: linear-gradient(145deg, #2c3a81, #1c2551);
+      background: #2f4f90;
       border: none;
-      border-radius: 12px;
+      border-radius: 8px;
       cursor: pointer;
     }
+    #result {
+      margin-top: 20px;
+    }
+    #resultCard {
+      background: rgba(255,255,255,0.08);
+      padding: 20px;
+      border-radius: 12px;
+    }
     .luckyBox {
-      background: rgba(255,255,255,0.06);
+      background: rgba(255, 255, 255, 0.06);
       padding: 12px;
       margin-top: 12px;
       border-left: 5px solid gold;
       border-radius: 10px;
       font-weight: bold;
       color: #ffe766;
-      font-size: 15px;
     }
     .shareBox {
-      margin-top: 20px;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      margin-top: 16px;
     }
     .shareBox button {
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 10px;
-      background: #2f4f90;
-      color: white;
-      border: none;
+      flex: 1;
     }
   </style>
 </head>
@@ -115,7 +105,6 @@
 
   let userId = "", userName = "", currentShareText = "";
 
-  // 初始化 LIFF
   window.onload = async function () {
     await liff.init({ liffId: "2007475335-1LbDw0QV" });
     if (!liff.isLoggedIn()) {
@@ -172,7 +161,7 @@ ${data.comment}
 4位數：${lucky4}`;
 
     resultDiv.innerHTML = `
-      <div id="resultCard" style="background:rgba(255,255,255,0.08); padding:20px; border-radius:12px;">
+      <div id="resultCard">
         <h3>輸入：${data.input}</h3>
         <p>數字轉換後：${data.numericStr}</p>
         <p>八星統計：${data.summary}</p>
@@ -188,10 +177,7 @@ ${data.comment}
   }
 
   function shareTextOnly() {
-    if (!currentShareText) {
-      alert("⚠️ 尚無分析結果可分享");
-      return;
-    }
+    if (!currentShareText) return alert("⚠️ 尚無分析結果可分享");
     if (navigator.share) {
       navigator.share({
         title: "🔮 彥彬數字風水分析",
