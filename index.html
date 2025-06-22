@@ -153,93 +153,123 @@
     <div id="result"></div>
   </div>
 
-  <script>
-    const luckyNumbersMap = {
-      "財富": ["168", "648", "139"],
-      "人緣": ["314", "276", "289"],
-      "成功": ["912", "634", "819"],
-      "桃花": ["647", "829", "138"],
-      "等待": ["222", "444", "888"],
-      "病痛": ["741", "893", "224"],
-      "凶險": ["444", "966", "248"],
-      "孤獨": ["121", "369", "084"],
-      "無明顯主星": ["000", "111", "999"]
-    };
+ <script>
+  const luckyNumbersMap = {
+    "財富": ["168", "648", "139"],
+    "人緣": ["314", "276", "289"],
+    "成功": ["912", "634", "819"],
+    "桃花": ["647", "829", "138"],
+    "等待": ["222", "444", "888"],
+    "病痛": ["741", "893", "224"],
+    "凶險": ["444", "966", "248"],
+    "孤獨": ["121", "369", "084"],
+    "無明顯主星": ["000", "111", "999"]
+  };
 
-    function analyze() {
-      const input = document.getElementById("inputText").value.trim();
-      const resultDiv = document.getElementById("result");
-      const button = document.querySelector("button");
+  let currentShareText = "";
 
-      if (!input) {
-        alert("請輸入手機號碼或英文姓名");
-        return;
-      }
+  function analyze() {
+    const input = document.getElementById("inputText").value.trim();
+    const resultDiv = document.getElementById("result");
+    const button = document.querySelector("button");
 
-      resultDiv.innerHTML = `<p style="font-size:18px; color:#cddfff;">🔮 正在分析中，請稍候...</p>`;
-      button.disabled = true;
-      button.innerText = "分析中...";
-
-      const oldScript = document.getElementById("jsonpScript");
-      if (oldScript) oldScript.remove();
-
-      const script = document.createElement("script");
-      script.id = "jsonpScript";
-      script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
-      document.body.appendChild(script);
+    if (!input) {
+      alert("請輸入手機號碼或英文姓名");
+      return;
     }
 
-    function showResult(data) {
-      const resultDiv = document.getElementById("result");
-      const button = document.querySelector("button");
-      button.disabled = false;
-      button.innerText = "分析";
+    resultDiv.innerHTML = `<p style="font-size:18px; color:#cddfff;">🔮 正在分析中，請稍候...</p>`;
+    button.disabled = true;
+    button.innerText = "分析中...";
 
-      if (data.error) {
-        resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
-        return;
-      }
+    const oldScript = document.getElementById("jsonpScript");
+    if (oldScript) oldScript.remove();
 
-      const formattedComment = data.comment
-        .replace(/\n/g, "<br>")
-        .replace(/([。！？])<br>/g, "$1<br><br>");
+    const script = document.createElement("script");
+    script.id = "jsonpScript";
+    script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
+    document.body.appendChild(script);
+  }
 
-      const lucky = luckyNumbersMap[data.dominant] || ["111", "222"];
-      const luckyText = `🌟 推薦幸運號：${lucky.join("、")}`;
+  function showResult(data) {
+    const resultDiv = document.getElementById("result");
+    const button = document.querySelector("button");
+    button.disabled = false;
+    button.innerText = "分析";
 
-      resultDiv.innerHTML = `
-        <div id="resultCard">
-          <h3>輸入：${data.input}</h3>
-          <p>數字轉換後：${data.numericStr}</p>
-          <p>八星統計：${data.summary}</p>
-          <p>主導星曜：${data.dominant}星</p>
-          <div id="aiComment">🔍 彥彬評語：<br>${formattedComment}</div>
-          <div class="luckyBox">${luckyText}</div>
-        </div>
-        <div class="shareBox">
-          <button onclick="saveAsImage()">📸 下載圖片</button>
-          <button onclick="copyText()">📋 複製文字</button>
-        </div>
-      `;
+    if (data.error) {
+      resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
+      return;
     }
 
-    function saveAsImage() {
-      const resultCard = document.getElementById("resultCard");
-      html2canvas(resultCard).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "數字風水分析.png";
-        link.href = canvas.toDataURL();
-        link.click();
+    const formattedComment = data.comment
+      .replace(/\n/g, "<br>")
+      .replace(/([。！？])<br>/g, "$1<br><br>");
+
+    const lucky = luckyNumbersMap[data.dominant] || ["111", "222"];
+    const suggested = lucky[Math.floor(Math.random() * lucky.length)];
+    const luckyText = `🌟 推薦幸運號：${lucky.join("、")}<br>🎯 建議下一組號碼嘗試：${suggested}`;
+
+    currentShareText = `🔢 數字分析｜${data.input}
+✨ 主導星曜：${data.dominant}
+🔍 彥彬評語：
+${data.comment}
+🌟 幸運號：${lucky.join("、")}
+➡️ 建議新號碼：${suggested}`;
+
+    resultDiv.innerHTML = `
+      <div id="resultCard">
+        <h3>輸入：${data.input}</h3>
+        <p>數字轉換後：${data.numericStr}</p>
+        <p>八星統計：${data.summary}</p>
+        <p>主導星曜：${data.dominant}星</p>
+        <div id="aiComment">🔍 彥彬評語：<br>${formattedComment}</div>
+        <div class="luckyBox">${luckyText}</div>
+      </div>
+      <div class="shareBox">
+        <button onclick="shareImageToLINE()">📤 推送到 LINE</button>
+        <button onclick="nativeShare()">📲 分享文字</button>
+      </div>
+    `;
+  }
+
+  function shareImageToLINE() {
+    const resultCard = document.getElementById("resultCard");
+    html2canvas(resultCard).then(canvas => {
+      const base64Image = canvas.toDataURL("image/png").split(',')[1];
+
+      // 傳送到你的 Google Apps Script Webhook，推送到 LINE
+      fetch('https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+          imageBase64: base64Image
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json()).then(resp => {
+        if (resp.success) {
+          alert("✅ 已將圖片傳送到 LINE！");
+        } else {
+          alert("❌ 圖片傳送失敗");
+        }
       });
-    }
+    });
+  }
 
-    function copyText() {
-      const result = document.getElementById("resultCard");
-      const text = result.innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("結果已複製！");
+  function nativeShare() {
+    if (navigator.share) {
+      navigator.share({
+        title: '彥彬數字風水分析',
+        text: currentShareText
+      }).catch(err => {
+        alert("❗ 分享取消或錯誤");
       });
+    } else {
+      alert("此裝置不支援原生分享，可長按複製文字");
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
