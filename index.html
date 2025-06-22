@@ -153,7 +153,8 @@
     <div id="result"></div>
   </div>
 
- <script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script>
   const luckyNumbersMap = {
     "財富": ["168", "648", "139"],
     "人緣": ["314", "276", "289"],
@@ -218,57 +219,68 @@ ${data.comment}
 ➡️ 建議新號碼：${suggested}`;
 
     resultDiv.innerHTML = `
-      <div id="resultCard">
+      <div id="resultCard" style="background:rgba(255,255,255,0.08); padding:20px; border-radius:12px;">
         <h3>輸入：${data.input}</h3>
         <p>數字轉換後：${data.numericStr}</p>
         <p>八星統計：${data.summary}</p>
         <p>主導星曜：${data.dominant}星</p>
         <div id="aiComment">🔍 彥彬評語：<br>${formattedComment}</div>
-        <div class="luckyBox">${luckyText}</div>
+        <div class="luckyBox" style="background:rgba(255, 255, 255, 0.06); padding:12px; margin-top:12px; border-left:5px solid gold; border-radius:10px; font-weight:bold; color:#ffe766; font-size:15px;">${luckyText}</div>
       </div>
-      <div class="shareBox">
-      <button onclick="nativeShareResult()">📲 分享到Line</button>
+      <div class="shareBox" style="margin-top:20px;">
+        <button onclick="nativeShareResult()" style="width:100%; padding:12px; font-size:16px; border-radius:10px; background:#2f4f90; color:#fff; border:none; cursor:pointer;">📲 分享到Line</button>
       </div>
     `;
   }
 
-  function shareImageToLINE() {
+  function nativeShareResult() {
     const resultCard = document.getElementById("resultCard");
-    html2canvas(resultCard).then(canvas => {
-      const base64Image = canvas.toDataURL("image/png").split(',')[1];
+    if (!resultCard) {
+      alert("⚠️ 尚無可分享的內容，請先分析");
+      return;
+    }
 
-      // 傳送到你的 Google Apps Script Webhook，推送到 LINE
-      fetch('https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec', {
-        method: 'POST',
+    if (!navigator.share) {
+      alert("❗ 此裝置不支援原生分享功能，請長按複製文字");
+      return;
+    }
+
+    html2canvas(resultCard).then(canvas => {
+      const base64Image = canvas.toDataURL("image/png").split(",")[1];
+
+      fetch("https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           imageBase64: base64Image
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json()).then(resp => {
-        if (resp.success) {
-          alert("✅ 已將圖片傳送到 LINE！");
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.imageUrl) {
+          navigator.share({
+            title: "🔮 彥彬數字風水分析",
+            text: currentShareText,
+            url: data.imageUrl
+          })
+          .catch(err => {
+            alert("❗ 分享取消或發生錯誤：" + err.message);
+          });
         } else {
-          alert("❌ 圖片傳送失敗");
+          alert("❌ 分享失敗：" + (data.error || "未知錯誤"));
         }
+      })
+      .catch(err => {
+        alert("❌ 上傳圖片失敗：" + err.message);
       });
+    }).catch(err => {
+      alert("❌ 截圖失敗：" + err.message);
     });
   }
-
-  function nativeShare() {
-    if (navigator.share) {
-      navigator.share({
-        title: '彥彬數字風水分析',
-        text: currentShareText
-      }).catch(err => {
-        alert("❗ 分享取消或錯誤");
-      });
-    } else {
-      alert("此裝置不支援原生分享，可長按複製文字");
-    }
-  }
 </script>
+
 
 </body>
 </html>
