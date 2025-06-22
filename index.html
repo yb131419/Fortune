@@ -4,75 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>彥彬🔮數字風水分析</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
-    :root {
-      --bg-dark: #0e162e;
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --input-bg: #f0f4ff;
-      --text-light: #dce3f1;
-      --text-accent: #a9c1ee;
-      --highlight: #324d8a;
-    }
-
     body {
       margin: 0;
-      padding: 0;
       font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
       background: linear-gradient(145deg, #0a0f1e, #192c50);
-      color: var(--text-light);
+      color: #dce3f1;
+      padding: 40px 16px;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      padding: 40px 16px;
     }
-
     .container {
-      width: 100%;
       max-width: 500px;
-      background: var(--card-bg);
+      width: 100%;
+      background: rgba(255,255,255,0.05);
       border-radius: 20px;
       padding: 32px 24px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.5);
       backdrop-filter: blur(20px);
     }
-
     .title {
-      text-align: center;
       font-size: 28px;
-      font-weight: 900;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 16px;
       color: #e3ecff;
-      margin-bottom: 24px;
-      text-shadow: 0 0 12px #4062a3;
     }
-
+    .subtitle {
+      font-size: 14px;
+      text-align: center;
+      color: #a9c1ee;
+      margin-bottom: 20px;
+    }
     .inputBox {
       display: flex;
       gap: 12px;
       flex-wrap: wrap;
     }
-
-    input#inputText {
+    #inputText {
       flex: 1;
       min-width: 180px;
       padding: 14px;
       font-size: 16px;
       border: none;
       border-radius: 12px;
-      background-color: var(--input-bg);
+      background-color: #f0f4ff;
       color: #1b2d4f;
-      box-shadow: inset 0 0 6px rgba(120, 140, 210, 0.3);
-      transition: box-shadow 0.3s ease;
     }
-    input#inputText:focus {
-      outline: none;
-      box-shadow: 0 0 8px 2px #7595e6;
-    }
-
-    /* 浮雕立體高質感按鈕 */
     button {
-      flex-shrink: 0;
       padding: 14px 18px;
       font-size: 16px;
       font-weight: bold;
@@ -80,99 +61,10 @@
       background: linear-gradient(145deg, #2c3a81, #1c2551);
       border: none;
       border-radius: 12px;
-      box-shadow:
-        inset 0 3px 6px rgba(255, 255, 255, 0.3),
-        0 6px 12px rgba(0, 0, 0, 0.8),
-        0 1px 3px rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
       cursor: pointer;
-      user-select: none;
     }
-
-    button:hover {
-      background: linear-gradient(145deg, #3b4a9e, #293370);
-      box-shadow:
-        inset 0 5px 8px rgba(255, 255, 255, 0.45),
-        0 8px 14px rgba(0, 0, 0, 0.9),
-        0 1px 5px rgba(255, 255, 255, 0.3);
-    }
-
-    button:active {
-      background: linear-gradient(145deg, #1b2450, #0f1631);
-      box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.7),
-        0 2px 4px rgba(0, 0, 0, 0.6);
-      transform: translateY(2px);
-    }
-
-    #result {
-      margin-top: 30px;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 24px 20px;
-      font-size: 16px;
-      line-height: 1.7;
-      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
-    }
-
-    #result h3 {
-      font-size: 18px;
-      color: #eaf1ff;
-      margin-bottom: 12px;
-      border-left: 4px solid #7595e6;
-      padding-left: 10px;
-    }
-
-    #result p {
-      margin: 10px 0;
-    }
-
-    #aiComment {
-      margin-top: 16px;
-      font-style: italic;
-      color: var(--text-accent);
-    }
-
-    .shareBox {
-      margin-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .shareBox button {
-      flex: 1;
-      background: linear-gradient(145deg, #2c3a81, #1c2551);
-      padding: 12px;
-      font-size: 14px;
-      border-radius: 10px;
-      box-shadow:
-        inset 0 3px 6px rgba(255, 255, 255, 0.3),
-        0 6px 12px rgba(0, 0, 0, 0.8),
-        0 1px 3px rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.3s ease;
-    }
-
-    .shareBox button:hover {
-      background: linear-gradient(145deg, #3b4a9e, #293370);
-      box-shadow:
-        inset 0 5px 8px rgba(255, 255, 255, 0.45),
-        0 8px 14px rgba(0, 0, 0, 0.9),
-        0 1px 5px rgba(255, 255, 255, 0.3);
-    }
-
-    .shareBox button:active {
-      background: linear-gradient(145deg, #1b2450, #0f1631);
-      box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.7),
-        0 2px 4px rgba(0, 0, 0, 0.6);
-      transform: translateY(2px);
-    }
-
     .luckyBox {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255,255,255,0.06);
       padding: 12px;
       margin-top: 12px;
       border-left: 5px solid gold;
@@ -181,31 +73,28 @@
       color: #ffe766;
       font-size: 15px;
     }
-    .title .subtitle {
-  font-size: 14px;
-  font-weight: normal;
-  color: #a9c1ee; /* 你也可以換成你喜歡的淺色 */
-  margin-top: 4px;
-  letter-spacing: 0.5px;
-}
-
-    @media (max-width: 400px) {
-      .inputBox {
-        flex-direction: column;
-      }
+    .shareBox {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .shareBox button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      background: #2f4f90;
+      color: white;
+      border: none;
     }
   </style>
 </head>
-
 <body>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
   <div class="container">
-    <div class="title"> 🔢 彥彬數字風水分析
-      <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
-    </div>
+    <div class="title">🔢 彥彬數字風水分析</div>
+    <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
     <div class="inputBox">
-      <input id="inputText" placeholder="請輸入：「手機號碼」、「車號」、「身分證」" autocomplete="off" />
+      <input id="inputText" placeholder="請輸入：手機號碼、車號、身分證" autocomplete="off" />
       <button onclick="analyze()">分析</button>
     </div>
     <div id="result"></div>
@@ -224,18 +113,15 @@
     "無明顯主星": ["000", "111", "999"]
   };
 
-  let userId = "";
-  let userName = "";
-  let currentShareText = "";
+  let userId = "", userName = "", currentShareText = "";
 
   // 初始化 LIFF
   window.onload = async function () {
-    await liff.init({ liffId: "2007475335-1LbDw0QV" }); // ✅ 替換成你自己的 LIFF ID
+    await liff.init({ liffId: "2007475335-1LbDw0QV" });
     if (!liff.isLoggedIn()) {
       liff.login();
       return;
     }
-
     const profile = await liff.getProfile();
     userId = profile.userId;
     userName = profile.displayName;
@@ -244,16 +130,11 @@
   function analyze() {
     const input = document.getElementById("inputText").value.trim();
     const resultDiv = document.getElementById("result");
-    const button = document.querySelector("button");
-
     if (!input) {
-      alert("請輸入『英文』或『數字』,『手機號碼』、『車號』、『身分證』都能使用");
+      alert("請輸入資料");
       return;
     }
-
-    resultDiv.innerHTML = `<p style="font-size:18px; color:#cddfff;">🔮 正在分析中，請稍候...</p>`;
-    button.disabled = true;
-    button.innerText = "分析中...";
+    resultDiv.innerHTML = `<p style="font-size:18px;">🔮 正在分析中...</p>`;
 
     const oldScript = document.getElementById("jsonpScript");
     if (oldScript) oldScript.remove();
@@ -266,34 +147,22 @@
 
   function showResult(data) {
     const resultDiv = document.getElementById("result");
-    const button = document.querySelector("button");
-    button.disabled = false;
-    button.innerText = "分析";
-
     if (data.error) {
       resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
       return;
     }
 
-    const formattedComment = data.comment
-      .replace(/\n/g, "<br>")
-      .replace(/([。！？])<br>/g, "$1<br><br>");
-
+    const formattedComment = data.comment.replace(/\n/g, "<br>").replace(/([。！？])<br>/g, "$1<br><br>");
     const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
-
-    const getRandomCode = (length) => {
+    const getRandomCode = (len) => {
       let code = "";
-      while (code.length < length) {
-        const pick = luckyArray[Math.floor(Math.random() * luckyArray.length)];
-        code += pick;
-      }
-      return code.slice(0, length);
+      while (code.length < len) code += luckyArray[Math.floor(Math.random() * luckyArray.length)];
+      return code.slice(0, len);
     };
 
     const lucky6 = getRandomCode(6);
     const lucky4 = getRandomCode(4);
     const luckyText = `🌟 推薦幸運號碼<br>🔢 6位數：${lucky6}<br>🔢 4位數：${lucky4}`;
-
     currentShareText = `🔢 數字分析｜${data.input}
 ✨ 主導星曜：${data.dominant}
 🔍 彥彬評語：
@@ -308,11 +177,12 @@ ${data.comment}
         <p>數字轉換後：${data.numericStr}</p>
         <p>八星統計：${data.summary}</p>
         <p>主導星曜：${data.dominant}星</p>
-        <div id="aiComment">🔍 彥彬評語：<br>${formattedComment}</div>
-        <div class="luckyBox" style="background:rgba(255, 255, 255, 0.06); padding:12px; margin-top:12px; border-left:5px solid gold; border-radius:10px; font-weight:bold; color:#ffe766; font-size:15px;">${luckyText}</div>
+        <div>🔍 彥彬評語：<br>${formattedComment}</div>
+        <div class="luckyBox">${luckyText}</div>
       </div>
-      <div class="shareBox" style="margin-top:20px;">
-        <button onclick="shareTextOnly()" style="width:100%; padding:12px; font-size:16px; border-radius:10px; background:#2f4f90; color:#fff; border:none; cursor:pointer;">📲 分享分析文字</button>
+      <div class="shareBox">
+        <button onclick="shareTextOnly()">📲 分享文字</button>
+        <button onclick="shareAsImage()">📸 分享圖片</button>
       </div>
     `;
   }
@@ -322,19 +192,39 @@ ${data.comment}
       alert("⚠️ 尚無分析結果可分享");
       return;
     }
-
     if (navigator.share) {
       navigator.share({
         title: "🔮 彥彬數字風水分析",
         text: currentShareText
-      }).catch(err => {
-        alert("❗ 分享已取消或錯誤：" + err.message);
-      });
+      }).catch(err => alert("❗ 分享取消：" + err.message));
     } else {
-      prompt("請手動複製以下文字分享：", currentShareText);
+      prompt("請手動複製以下文字：", currentShareText);
+    }
+  }
+
+  async function shareAsImage() {
+    const target = document.getElementById("resultCard");
+    if (!target) return alert("❗ 尚未有分析結果");
+
+    try {
+      const canvas = await html2canvas(target, { backgroundColor: null });
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+      const file = new File([blob], "彥彬數字分析.png", { type: "image/png" });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "🔮 彥彬數字分析" });
+      } else {
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+        link.href = url;
+        link.download = "彥彬數字分析.png";
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (err) {
+      alert("❌ 分享失敗：" + err.message);
     }
   }
 </script>
 </body>
-
 </html>
