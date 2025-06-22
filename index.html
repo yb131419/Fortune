@@ -165,10 +165,13 @@
 <body>
   <div class="container">
     <div class="title">🔢 彥彬數字風水</div>
-    <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
+    <div class="subtitle">
+    <span>輕鬆掌握數字密碼，改變你的運勢</span><br>
+    <span>輸入『英文』、『數字』：如「手機號碼」、「車號」</span>
+    </div>
     <div class="inputBox">
-      <input id="inputText" placeholder="請輸入：手機號碼、車號、身分證" autocomplete="off" />
-      <button class="analyzeButton" onclick="analyze()">🔮 分析</button>
+      <input id="inputText" placeholder="請輸入：手機號碼、車號" autocomplete="off" />
+      <button class="analyzeButton" onclick="analyze()">🌟 分析</button>
     </div>
     <div id="result"></div>
   </div>
@@ -266,7 +269,7 @@
 
     resultDiv.innerHTML = `
       <div id="resultCard">
-        <h1>彥彬 🔮數字風水</h1>
+        <h1>彥彬 🔮 數字風水</h1>
         <h3>查詢數字：${data.input}</h3>
         <p>數字風水：${data.numericStr}</p>
         <p>八星統計：${data.summary}</p>
@@ -276,7 +279,7 @@
         <div style="margin-top:16px; padding:12px; background:rgba(255,255,255,0.05); border-left:4px solid #80d4ff; border-radius:10px; font-size:14px;">
           👤 使用者狀態：
           <br>🔁 剩餘次數：<b>${quotaText}</b>
-          ${data.isAdmin ? `<br>🛡️ 使用權限，有效期至：<b>${expireText}</b>` : ""}
+          ${data.isAdmin ? `<br>🛡️ 有效期至：<b>${expireText}</b>` : ""}
         </div>
       </div>
       <div class="shareBox">
