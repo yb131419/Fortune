@@ -228,7 +228,7 @@ ${data.comment}
         <div class="luckyBox" style="background:rgba(255, 255, 255, 0.06); padding:12px; margin-top:12px; border-left:5px solid gold; border-radius:10px; font-weight:bold; color:#ffe766; font-size:15px;">${luckyText}</div>
       </div>
       <div class="shareBox" style="margin-top:20px;">
-        <button onclick="nativeShareResult()" style="width:100%; padding:12px; font-size:16px; border-radius:10px; background:#2f4f90; color:#fff; border:none; cursor:pointer;">📲 分享到Line</button>
+        <button onclick="nativeShareResult()" style="width:100%; padding:12px; font-size:16px; border-radius:10px; background:#2f4f90; color:#fff; border:none; cursor:pointer;">📲 分享圖片＋文字</button>
       </div>
     `;
   }
@@ -241,11 +241,11 @@ ${data.comment}
     }
 
     if (!navigator.share) {
-      alert("❗ 此裝置不支援原生分享功能，請長按複製文字");
+      alert("❗ 此裝置不支援原生分享，請長按複製畫面");
       return;
     }
 
-    html2canvas(resultCard).then(canvas => {
+    html2canvas(resultCard, { scale: 2 }).then(canvas => {
       const base64Image = canvas.toDataURL("image/png").split(",")[1];
 
       fetch("https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec", {
@@ -264,16 +264,15 @@ ${data.comment}
             title: "🔮 彥彬數字風水分析",
             text: currentShareText,
             url: data.imageUrl
-          })
-          .catch(err => {
-            alert("❗ 分享取消或發生錯誤：" + err.message);
+          }).catch(err => {
+            alert("❗ 分享取消或錯誤：" + err.message);
           });
         } else {
-          alert("❌ 分享失敗：" + (data.error || "未知錯誤"));
+          alert("❌ 圖片上傳失敗：" + (data.error || "未知錯誤"));
         }
       })
       .catch(err => {
-        alert("❌ 上傳圖片失敗：" + err.message);
+        alert("❌ 圖片上傳錯誤：" + err.message);
       });
     }).catch(err => {
       alert("❌ 截圖失敗：" + err.message);
