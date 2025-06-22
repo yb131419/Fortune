@@ -73,9 +73,11 @@
       display: flex;
       gap: 10px;
       margin-top: 16px;
+      justify-content: flex-end; /* 讓按鈕靠右 */
     }
     .shareBox button {
-      flex: 1;
+      flex: none;
+      min-width: 120px;
     }
 
     /* 截圖模式樣式修正 */
@@ -184,7 +186,6 @@
     userName = profile.displayName;
   };
 
-  // 產生跳動文字的 HTML，給「分析中」用
   function createAnimatedLoadingText(text) {
     return [...text].map(ch => `<span>${ch}</span>`).join('');
   }
@@ -196,7 +197,6 @@
       alert("請輸入資料");
       return;
     }
-    // 進階動態效果 - loading 動畫區塊
     resultDiv.innerHTML = `
       <div class="loading">
         <div class="loadingIcon"></div>
@@ -250,22 +250,9 @@ ${data.comment}
         <div class="luckyBox">${luckyText}</div>
       </div>
       <div class="shareBox">
-        <button onclick="shareTextOnly()">📲 分享文字</button>
         <button onclick="shareAsImage()">📸 分享圖片</button>
       </div>
     `;
-  }
-
-  function shareTextOnly() {
-    if (!currentShareText) return alert("⚠️ 尚無分析結果可分享");
-    if (navigator.share) {
-      navigator.share({
-        title: "🔮 彥彬數字風水",
-        text: currentShareText
-      }).catch(err => alert("❗ 分享取消：" + err.message));
-    } else {
-      prompt("請手動複製以下文字：", currentShareText);
-    }
   }
 
   async function shareAsImage() {
@@ -273,7 +260,6 @@ ${data.comment}
     if (!target) return alert("❗ 尚未有分析結果");
 
     try {
-      // 套用截圖樣式
       target.classList.add("screenshotMode");
 
       const canvas = await html2canvas(target, { backgroundColor: null });
@@ -293,7 +279,6 @@ ${data.comment}
     } catch (err) {
       alert("❌ 分享失敗：" + err.message);
     } finally {
-      // 還原樣式
       target.classList.remove("screenshotMode");
     }
   }
