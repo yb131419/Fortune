@@ -63,23 +63,46 @@
       background-color: var(--input-bg);
       color: #1b2d4f;
       box-shadow: inset 0 0 6px rgba(120, 140, 210, 0.3);
+      transition: box-shadow 0.3s ease;
+    }
+    input#inputText:focus {
+      outline: none;
+      box-shadow: 0 0 8px 2px #7595e6;
     }
 
+    /* 浮雕立體高質感按鈕 */
     button {
       flex-shrink: 0;
       padding: 14px 18px;
       font-size: 16px;
       font-weight: bold;
       color: white;
-      background: linear-gradient(90deg, #3a58a3, #1f325f);
+      background: linear-gradient(145deg, #2c3a81, #1c2551);
       border: none;
       border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(60, 90, 160, 0.5);
+      box-shadow:
+        inset 0 3px 6px rgba(255, 255, 255, 0.3),
+        0 6px 12px rgba(0, 0, 0, 0.8),
+        0 1px 3px rgba(255, 255, 255, 0.2);
       transition: all 0.3s ease;
+      cursor: pointer;
+      user-select: none;
     }
 
     button:hover {
-      background: linear-gradient(90deg, #4e6ed0, #2b457e);
+      background: linear-gradient(145deg, #3b4a9e, #293370);
+      box-shadow:
+        inset 0 5px 8px rgba(255, 255, 255, 0.45),
+        0 8px 14px rgba(0, 0, 0, 0.9),
+        0 1px 5px rgba(255, 255, 255, 0.3);
+    }
+
+    button:active {
+      background: linear-gradient(145deg, #1b2450, #0f1631);
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.6);
+      transform: translateY(2px);
     }
 
     #result {
@@ -119,10 +142,33 @@
 
     .shareBox button {
       flex: 1;
-      background: #2f4f90;
+      background: linear-gradient(145deg, #2c3a81, #1c2551);
       padding: 12px;
       font-size: 14px;
       border-radius: 10px;
+      box-shadow:
+        inset 0 3px 6px rgba(255, 255, 255, 0.3),
+        0 6px 12px rgba(0, 0, 0, 0.8),
+        0 1px 3px rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+    }
+
+    .shareBox button:hover {
+      background: linear-gradient(145deg, #3b4a9e, #293370);
+      box-shadow:
+        inset 0 5px 8px rgba(255, 255, 255, 0.45),
+        0 8px 14px rgba(0, 0, 0, 0.9),
+        0 1px 5px rgba(255, 255, 255, 0.3);
+    }
+
+    .shareBox button:active {
+      background: linear-gradient(145deg, #1b2450, #0f1631);
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.6);
+      transform: translateY(2px);
     }
 
     .luckyBox {
@@ -143,6 +189,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="title">🔢 彥彬數字風水分析</div>
