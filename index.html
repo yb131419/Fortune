@@ -78,7 +78,7 @@
       flex: 1;
     }
 
-    /* ✅ 截圖模式樣式修正 */
+    /* 截圖模式樣式修正 */
     .screenshotMode {
       background: #16233d !important;
       color: #ffffff !important;
@@ -87,6 +87,63 @@
       background: none !important;
       color: #ffe766 !important;
       border-left: 4px solid gold !important;
+    }
+
+    /* 動態分析中效果 */
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      user-select: none;
+      animation: bgFlash 2.5s ease-in-out infinite;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(50, 75, 140, 0.6);
+      color: #a9d1ff;
+      justify-content: center;
+    }
+    .loadingIcon {
+      width: 24px;
+      height: 24px;
+      border: 3.5px solid #a9d1ff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .loadingText {
+      position: relative;
+      animation: pulseJump 1.5s ease-in-out infinite;
+    }
+    .loadingText span {
+      display: inline-block;
+      animation: flicker 1.8s infinite;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in-out;
+    }
+    .loadingText span:nth-child(1) { animation-delay: 0s; }
+    .loadingText span:nth-child(2) { animation-delay: 0.2s; }
+    .loadingText span:nth-child(3) { animation-delay: 0.4s; }
+    .loadingText span:nth-child(4) { animation-delay: 0.6s; }
+    .loadingText span:nth-child(5) { animation-delay: 0.8s; }
+    .loadingText span:nth-child(6) { animation-delay: 1.0s; }
+    .loadingText span:nth-child(7) { animation-delay: 1.2s; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes pulseJump {
+      0%, 100% { transform: translateY(0); color: #a9d1ff; }
+      50% { transform: translateY(-6px); color: #66b3ff; }
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; color: #a9d1ff; text-shadow: 0 0 5px #66b3ff; }
+      50% { opacity: 0.4; color: #4477cc; text-shadow: none; }
+    }
+    @keyframes bgFlash {
+      0%, 100% { background: rgba(50, 75, 140, 0.6); }
+      50% { background: rgba(90, 130, 220, 0.9); }
     }
   </style>
 </head>
@@ -127,6 +184,11 @@
     userName = profile.displayName;
   };
 
+  // 產生跳動文字的 HTML，給「分析中」用
+  function createAnimatedLoadingText(text) {
+    return [...text].map(ch => `<span>${ch}</span>`).join('');
+  }
+
   function analyze() {
     const input = document.getElementById("inputText").value.trim();
     const resultDiv = document.getElementById("result");
@@ -134,7 +196,13 @@
       alert("請輸入資料");
       return;
     }
-    resultDiv.innerHTML = `<p style="font-size:18px;">🔮 正在分析中...</p>`;
+    // 進階動態效果 - loading 動畫區塊
+    resultDiv.innerHTML = `
+      <div class="loading">
+        <div class="loadingIcon"></div>
+        <div class="loadingText">${createAnimatedLoadingText("🔮 正在分析中...")}</div>
+      </div>
+    `;
 
     const oldScript = document.getElementById("jsonpScript");
     if (oldScript) oldScript.remove();
@@ -204,7 +272,7 @@ ${data.comment}
     if (!target) return alert("❗ 尚未有分析結果");
 
     try {
-      // ✅ 套用截圖樣式
+      // 套用截圖樣式
       target.classList.add("screenshotMode");
 
       const canvas = await html2canvas(target, { backgroundColor: null });
@@ -224,7 +292,7 @@ ${data.comment}
     } catch (err) {
       alert("❌ 分享失敗：" + err.message);
     } finally {
-      // ✅ 還原樣式
+      // 還原樣式
       target.classList.remove("screenshotMode");
     }
   }
