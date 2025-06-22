@@ -181,6 +181,13 @@
       color: #ffe766;
       font-size: 15px;
     }
+    .title .subtitle {
+  font-size: 14px;
+  font-weight: normal;
+  color: #a9c1ee; /* 你也可以換成你喜歡的淺色 */
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
 
     @media (max-width: 400px) {
       .inputBox {
@@ -192,7 +199,8 @@
 
 <body>
   <div class="container">
-    <div class="title">🔢 彥彬數字風水分析</div>
+    <div class="title"> 🔢 彥彬數字風水分析 <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
+    </div>
     <div class="inputBox">
       <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
       <button onclick="analyze()">分析</button>
