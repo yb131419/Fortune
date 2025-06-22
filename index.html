@@ -3,14 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>彥彬🔮數字風水</title>
+  <title>彥彬🔮數字風水分析</title>
   <style>
+    :root {
+      --bg-dark: #0e162e;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --input-bg: #f0f4ff;
+      --text-light: #dce3f1;
+      --text-accent: #a9c1ee;
+      --highlight: #324d8a;
+    }
+
     body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
-      background: linear-gradient(135deg, #0a0f1e, #152343);
-      color: #dce3f1;
+      background: linear-gradient(145deg, #0a0f1e, #192c50);
+      color: var(--text-light);
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -20,45 +29,49 @@
 
     .container {
       width: 100%;
-      max-width: 460px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      max-width: 480px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px 24px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 32px 24px;
-      box-sizing: border-box;
     }
 
     .title {
       text-align: center;
       font-size: 28px;
       font-weight: 900;
-      color: #c5d8f1;
+      color: #e3ecff;
       margin-bottom: 24px;
-      text-shadow: 0 0 10px #324d8a;
+      text-shadow: 0 0 12px #4062a3;
+    }
+
+    .inputBox {
+      display: flex;
+      flex-direction: column;
     }
 
     input#inputText {
       width: 100%;
-      padding: 14px 16px;
+      padding: 16px;
       font-size: 18px;
       border: none;
-      border-radius: 12px;
-      background-color: #f0f4ff;
+      border-radius: 14px;
+      background-color: var(--input-bg);
       color: #1b2d4f;
-      box-shadow: inset 0 0 8px rgba(100, 120, 200, 0.3);
+      box-shadow: inset 0 0 8px rgba(120, 140, 210, 0.3);
     }
 
     input#inputText::placeholder {
-      color: #98a6c2;
+      color: #8a9bbd;
       font-weight: 500;
     }
 
     input#inputText:focus {
       outline: none;
       background: #ffffff;
-      box-shadow: 0 0 12px #4c6fe9aa;
+      box-shadow: 0 0 12px #5a7ff1cc;
     }
 
     button {
@@ -68,42 +81,44 @@
       font-size: 20px;
       font-weight: bold;
       color: white;
-      background: linear-gradient(90deg, #304c89, #1a2f5c);
+      background: linear-gradient(90deg, #3a58a3, #1f325f);
       border: none;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(50, 80, 160, 0.6);
-      transition: 0.3s ease;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(60, 90, 160, 0.6);
+      transition: all 0.3s ease;
     }
 
     button:hover {
-      background: linear-gradient(90deg, #3f5ea5, #24396d);
-      box-shadow: 0 8px 26px rgba(80, 100, 180, 0.7);
+      background: linear-gradient(90deg, #4e6ed0, #2b457e);
+      box-shadow: 0 10px 28px rgba(80, 110, 180, 0.75);
     }
 
     #result {
-      margin-top: 28px;
-      background: rgba(255, 255, 255, 0.07);
-      border-radius: 14px;
-      padding: 20px;
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 24px 20px;
       font-size: 16px;
-      line-height: 1.6;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      line-height: 1.7;
+      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
     }
 
     #result h3 {
       font-size: 18px;
-      color: #e0ecff;
-      margin-bottom: 10px;
+      color: #eaf1ff;
+      margin-bottom: 12px;
+      border-left: 4px solid #7595e6;
+      padding-left: 10px;
     }
 
     #result p {
-      margin: 8px 0;
+      margin: 10px 0;
     }
 
     #result p#aiComment {
       margin-top: 16px;
       font-style: italic;
-      color: #a9c1ee;
+      color: var(--text-accent);
     }
 
     #result p[style*="color:red"] {
@@ -115,65 +130,62 @@
 </head>
 <body>
   <div class="container">
-    <div class="title">🧧 彥彬數字風水 🔢</div>
-    <input id="inputText" placeholder="請輸入『號碼』或『英文』" autocomplete="off" />
-    <button onclick="analyze()">開始分析</button>
+    <div class="title">🔢 彥彬數字風水分析</div>
+    <div class="inputBox">
+      <input id="inputText" placeholder="請輸入手機號碼或英文姓名" autocomplete="off" />
+      <button onclick="analyze()">開始分析</button>
+    </div>
     <div id="result"></div>
   </div>
 
- <script>
-  function analyze() {
-    const input = document.getElementById("inputText").value.trim();
-    const resultDiv = document.getElementById("result");
-    const button = document.querySelector("button");
+  <script>
+    function analyze() {
+      const input = document.getElementById("inputText").value.trim();
+      const resultDiv = document.getElementById("result");
+      const button = document.querySelector("button");
 
-    if (!input) {
-      alert("請輸入手機號碼或英文姓名");
-      return;
+      if (!input) {
+        alert("請輸入手機號碼或英文姓名");
+        return;
+      }
+
+      resultDiv.innerHTML = `<p style="font-size:18px; color:#cddfff;">🔮 正在分析中，請稍候...</p>`;
+      button.disabled = true;
+      button.innerText = "分析中...";
+
+      const oldScript = document.getElementById("jsonpScript");
+      if (oldScript) oldScript.remove();
+
+      const script = document.createElement("script");
+      script.id = "jsonpScript";
+      script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
+      document.body.appendChild(script);
     }
 
-    // 顯示分析中動畫
-    resultDiv.innerHTML = `
-      <p style="font-size:18px; color:#cddfff;">🔮 正在分析中，請稍候...</p>
-    `;
-    button.disabled = true;
-    button.innerText = "分析中...";
+    function showResult(data) {
+      const resultDiv = document.getElementById("result");
+      const button = document.querySelector("button");
 
-    const oldScript = document.getElementById("jsonpScript");
-    if (oldScript) oldScript.remove();
+      button.disabled = false;
+      button.innerText = "開始分析";
 
-    const script = document.createElement("script");
-    script.id = "jsonpScript";
-    script.src = `https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec?input=${encodeURIComponent(input)}&callback=showResult`;
-    document.body.appendChild(script);
-  }
+      if (data.error) {
+        resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
+        return;
+      }
 
-  function showResult(data) {
-    const resultDiv = document.getElementById("result");
-    const button = document.querySelector("button");
+      const formattedComment = data.comment
+        .replace(/\n/g, "<br>")
+        .replace(/([。！？])<br>/g, "$1<br><br>");
 
-    button.disabled = false;
-    button.innerText = "開始分析";
-
-    if (data.error) {
-      resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
-      return;
+      resultDiv.innerHTML = `
+        <h3>輸入：${data.input}</h3>
+        <p>數字轉換後：${data.numericStr}</p>
+        <p>八星統計：${data.summary}</p>
+        <p>主導星曜：${data.dominant}星</p>
+        <p id="aiComment">🔍 彥彬評語：<br>${formattedComment}</p>
+      `;
     }
-
-    // 處理多段評語換行
-    const formattedComment = data.comment
-      .replace(/\n/g, "<br>")
-      .replace(/([。！？])<br>/g, "$1<br><br>");
-
-    resultDiv.innerHTML = `
-      <h3>輸入：${data.input}</h3>
-      <p>數字轉換後：${data.numericStr}</p>
-      <p>八星統計：${data.summary}</p>
-      <p>主導星曜：${data.dominant}星</p>
-      <p id="aiComment">🔍 彥彬評語：<br>${formattedComment}</p>
-    `;
-  }
-</script>
-
+  </script>
 </body>
 </html>
