@@ -42,15 +42,20 @@
       border-radius: 8px;
       border: none;
     }
-    button {
-      padding: 12px 16px;
-      font-size: 14px;
+    .analyzeButton {
+      padding: 14px 20px;
+      font-size: 16px;
       font-weight: bold;
-      color: white;
-      background: #2f4f90;
+      background: linear-gradient(145deg, #3a5fb4, #284887);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       cursor: pointer;
+      flex: none;
+    }
+    .analyzeButton:hover {
+      background: linear-gradient(145deg, #4e72c6, #2e57a0);
     }
     #result {
       margin-top: 20px;
@@ -71,16 +76,25 @@
     }
     .shareBox {
       display: flex;
-      gap: 10px;
-      margin-top: 16px;
-      justify-content: flex-end; /* 讓按鈕靠右 */
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
     }
     .shareBox button {
-      flex: none;
-      min-width: 120px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ffd166, #f4a261);
+      color: #202020;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .shareBox button:hover {
+      background: linear-gradient(135deg, #ffcc80, #e68a00);
     }
 
-    /* 截圖模式樣式修正 */
     .screenshotMode {
       background: #16233d !important;
       color: #ffffff !important;
@@ -91,7 +105,6 @@
       border-left: 4px solid gold !important;
     }
 
-    /* 動態分析中效果 */
     .loading {
       display: flex;
       align-items: center;
@@ -155,7 +168,7 @@
     <div class="subtitle">輕鬆掌握數字密碼，改變你的運勢</div>
     <div class="inputBox">
       <input id="inputText" placeholder="請輸入：手機號碼、車號、身分證" autocomplete="off" />
-      <button onclick="analyze()">🔮 分析</button>
+      <button class="analyzeButton" onclick="analyze()">🔮 分析</button>
     </div>
     <div id="result"></div>
   </div>
@@ -261,7 +274,6 @@ ${data.comment}
 
     try {
       target.classList.add("screenshotMode");
-
       const canvas = await html2canvas(target, { backgroundColor: null });
       const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
       const file = new File([blob], "彥彬數字風水.png", { type: "image/png" });
