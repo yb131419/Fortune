@@ -1,34 +1,33 @@
-<!DOCTYPE html>
+<!DOCTYPE html>More actions
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <title>彥彬🔮 數字風水</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>彥彬🔮數字風水</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <style>
     body {
-      background: #1e1e2f;
-      color: #ddd;
-      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-      margin: 0; padding: 20px;
+      margin: 0;
+      padding: 24px 12px;
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+      background: linear-gradient(145deg, #0a0f1e, #192c50);
+      color: #eaf1ff;
     }
     .container {
-      max-width: 480px;
+      max-width: 500px;
       margin: auto;
-      background: #2c2c44;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 12px #3a3a66;
     }
     .title {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
-      margin-bottom: 4px;
       text-align: center;
-      color: #9d7eff;
+      margin-bottom: 6px;
     }
     .subtitle {
+      font-size: 14px;
       text-align: center;
-      color: #b3a1ff;
+      color: #a9c1ee;
       margin-bottom: 20px;
     }
     .inputBox {
@@ -36,92 +35,130 @@
       gap: 10px;
       margin-bottom: 20px;
     }
-    input#inputText {
-      flex-grow: 1;
-      padding: 10px;
+    input {
+      flex: 1;
+      padding: 12px;
       font-size: 16px;
       border-radius: 8px;
       border: none;
-      outline: none;
-      background: #44456a;
-      color: #eee;
     }
-    button.analyzeButton {
-      background: #9d7eff;
+    .analyzeButton {
+      padding: 14px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(145deg, #3a5fb4, #284887);
       border: none;
-      color: #fff;
-      font-weight: 600;
-      border-radius: 8px;
-      padding: 0 18px;
+      border-radius: 10px;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      flex: none;
     }
-    button.analyzeButton:hover {
-      background: #7b60ff;
+    .analyzeButton:hover {
+      background: linear-gradient(145deg, #4e72c6, #2e57a0);
     }
     #result {
       margin-top: 20px;
-      background: #3a3a66;
-      padding: 18px;
+    }
+    #resultCard {
+      background: rgba(255,255,255,0.08);
+      padding: 20px;
       border-radius: 12px;
-      min-height: 160px;
-      line-height: 1.5em;
-      font-size: 14px;
-      word-break: break-word;
     }
-    #result a {
-      color: #80d4ff;
-      text-decoration: underline;
+    .luckyBox {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 12px;
+      margin-top: 12px;
+      border-left: 5px solid gold;
+      border-radius: 10px;
+      font-weight: bold;
+      color: #ffe766;
     }
+    .shareBox {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .shareBox button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #ffd166, #f4a261);
+      color: #202020;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .shareBox button:hover {
+      background: linear-gradient(135deg, #ffcc80, #e68a00);
+    }
+
+    .screenshotMode {
+      background: #16233d !important;
+      color: #ffffff !important;
+    }
+    .screenshotMode .luckyBox {
+      background: none !important;
+      color: #ffe766 !important;
+      border-left: 4px solid gold !important;
+    }
+
     .loading {
       display: flex;
       align-items: center;
       gap: 12px;
       font-size: 18px;
-      color: #80d4ff;
+      font-weight: bold;
+      user-select: none;
+      animation: bgFlash 2.5s ease-in-out infinite;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(50, 75, 140, 0.6);
+      color: #a9d1ff;
+      justify-content: center;
     }
     .loadingIcon {
-      width: 20px;
-      height: 20px;
-      border: 3px solid #80d4ff;
+      width: 24px;
+      height: 24px;
+      border: 3.5px solid #a9d1ff;
       border-top-color: transparent;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+    .loadingText {
+      position: relative;
+      animation: pulseJump 1.5s ease-in-out infinite;
+    }
+    .loadingText span {
+      display: inline-block;
+      animation: flicker 1.8s infinite;
+      animation-fill-mode: forwards;
+      animation-timing-function: ease-in-out;
+    }
+    .loadingText span:nth-child(1) { animation-delay: 0s; }
+    .loadingText span:nth-child(2) { animation-delay: 0.2s; }
+    .loadingText span:nth-child(3) { animation-delay: 0.4s; }
+    .loadingText span:nth-child(4) { animation-delay: 0.6s; }
+    .loadingText span:nth-child(5) { animation-delay: 0.8s; }
+    .loadingText span:nth-child(6) { animation-delay: 1.0s; }
+    .loadingText span:nth-child(7) { animation-delay: 1.2s; }
+
     @keyframes spin {
-      0% { transform: rotate(0deg);}
-      100% { transform: rotate(360deg);}
+      to { transform: rotate(360deg); }
     }
-    #resultCard h1 {
-      color: #d8bfff;
-      font-size: 26px;
-      margin-bottom: 8px;
+    @keyframes pulseJump {
+      0%, 100% { transform: translateY(0); color: #a9d1ff; }
+      50% { transform: translateY(-6px); color: #66b3ff; }
     }
-    .luckyBox {
-      margin-top: 12px;
-      background: #5447a1;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 600;
-      color: #e1dcff;
-      line-height: 1.3em;
+    @keyframes flicker {
+      0%, 100% { opacity: 1; color: #a9d1ff; text-shadow: 0 0 5px #66b3ff; }
+      50% { opacity: 0.4; color: #4477cc; text-shadow: none; }
     }
-    .shareBox {
-      margin-top: 14px;
-      text-align: center;
-    }
-    .shareBox button {
-      background: #9d7eff;
-      border: none;
-      padding: 10px 18px;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 16px;
-    }
-    .shareBox button:hover {
-      background: #7b60ff;
+    @keyframes bgFlash {
+      0%, 100% { background: rgba(50, 75, 140, 0.6); }
+      50% { background: rgba(90, 130, 220, 0.9); }
     }
   </style>
 </head>
@@ -136,7 +173,6 @@
     <div id="result"></div>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
   const luckyNumbersMap = {
     "財富": ["168", "648", "139"],
@@ -190,21 +226,17 @@
     document.body.appendChild(script);
   }
 
-  function linkify(text) {
-    // 將文字中的網址轉成超連結（可點擊並新分頁開啟）
-    const urlRegex = /(https?:\/\/[^\s<]+)/g;
-    return text.replace(urlRegex, url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
-  }
-
   function showResult(data) {
     const resultDiv = document.getElementById("result");
     if (data.error) {
-      // 錯誤訊息轉換換行 + 連結可點擊
-      let errorHtml = data.error.replace(/\n/g, "<br>");
-      errorHtml = linkify(errorHtml);
-      resultDiv.innerHTML = `<p style="color:red;">⚠️ ${errorHtml}</p>`;
+      resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
       return;
     }
+  const resultDiv = document.getElementById("result");
+  if (data.error) {
+    resultDiv.innerHTML = `<p style="color:red;">⚠️ ${data.error}</p>`;
+    return;
+  }
 
     const formattedComment = data.comment.replace(/\n/g, "<br>").replace(/([。！？])<br>/g, "$1<br><br>");
     const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
@@ -213,22 +245,33 @@
       while (code.length < len) code += luckyArray[Math.floor(Math.random() * luckyArray.length)];
       return code.slice(0, len);
     };
+  const formattedComment = data.comment.replace(/\n/g, "<br>").replace(/([。！？])<br>/g, "$1<br><br>");
+  const luckyArray = luckyNumbersMap[data.dominant] || ["111", "222"];
+  const getRandomCode = (len) => {
+    let code = "";
+    while (code.length < len) code += luckyArray[Math.floor(Math.random() * luckyArray.length)];
+    return code.slice(0, len);
+  };
 
     const lucky6 = getRandomCode(6);
     const lucky4 = getRandomCode(4);
     const luckyText = `🌟 推薦幸運號碼<br>🔢 6位數：${lucky6}<br>🔢 4位數：${lucky4}`;
+  const lucky6 = getRandomCode(6);
+  const lucky4 = getRandomCode(4);
+  const luckyText = `🌟 推薦幸運號碼<br>🔢 6位數：${lucky6}<br>🔢 4位數：${lucky4}`;
 
-    // 台北時間格式化有效期限
-    const expireText = data.expireAt
-      ? new Date(data.expireAt).toLocaleDateString('zh-TW', {
-          timeZone: 'Asia/Taipei',
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        })
-      : "";
-
+    // 顯示剩餘次數與管理資訊
     const quotaText = (data.quota === undefined || data.quota === null) ? "無限制" : data.quota;
+    const expireText = data.expireAt ? data.expireAt : "";
+  // 台北時間格式化有效期限
+  const expireText = data.expireAt
+    ? new Date(data.expireAt).toLocaleDateString('zh-TW', {
+        timeZone: 'Asia/Taipei',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+    : "";
 
     resultDiv.innerHTML = `
       <div id="resultCard">
@@ -242,14 +285,35 @@
         <div style="margin-top:16px; padding:12px; background:rgba(255,255,255,0.05); border-left:4px solid #80d4ff; border-radius:10px; font-size:14px;">
           👤 使用者狀態：
           <br>🔁 剩餘次數：<b>${quotaText}</b>
-          ${data.isAdmin ? `<br>🛡️ 有效期限至：<b>${expireText}</b>` : ""}
+          ${data.isAdmin ? `<br>🛡️ 使用權限，有效期至：<b>${expireText}</b>` : ""}
         </div>
       </div>
       <div class="shareBox">
         <button onclick="shareAsImage()">📸 分享圖片</button>
+  const quotaText = (data.quota === undefined || data.quota === null) ? "無限制" : data.quota;
+
+  resultDiv.innerHTML = `
+    <div id="resultCard">
+      <h1>彥彬 🔮數字風水</h1>
+      <h3>查詢數字：${data.input}</h3>
+      <p>數字風水：${data.numericStr}</p>
+      <p>八星統計：${data.summary}</p>
+      <p>主導星曜：${data.dominant}星</p>
+      <div>🔍 彥彬評語：<br>${formattedComment}</div>
+      <div class="luckyBox">${luckyText}</div>
+      <div style="margin-top:16px; padding:12px; background:rgba(255,255,255,0.05); border-left:4px solid #80d4ff; border-radius:10px; font-size:14px;">
+        👤 使用者狀態：
+        <br>🔁 剩餘次數：<b>${quotaText}</b>
+        ${data.isAdmin ? `<br>🛡️ 有效期限至：<b>${expireText}</b>` : ""}
       </div>
     `;
   }
+    </div>
+    <div class="shareBox">
+      <button onclick="shareAsImage()">📸 分享圖片</button>
+    </div>
+  `;
+}
 
   async function shareAsImage() {
     const target = document.getElementById("resultCard");
