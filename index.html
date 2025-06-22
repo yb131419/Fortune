@@ -153,7 +153,6 @@
     <div id="result"></div>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
   const luckyNumbersMap = {
     "財富": ["168", "648", "139"],
@@ -228,46 +227,26 @@ ${data.comment}
         <div class="luckyBox" style="background:rgba(255, 255, 255, 0.06); padding:12px; margin-top:12px; border-left:5px solid gold; border-radius:10px; font-weight:bold; color:#ffe766; font-size:15px;">${luckyText}</div>
       </div>
       <div class="shareBox" style="margin-top:20px;">
-        <button onclick="nativeShareResult()" style="width:100%; padding:12px; font-size:16px; border-radius:10px; background:#2f4f90; color:#fff; border:none; cursor:pointer;">📲 分享圖片＋文字</button>
+        <button onclick="shareTextOnly()" style="width:100%; padding:12px; font-size:16px; border-radius:10px; background:#2f4f90; color:#fff; border:none; cursor:pointer;">📲 分享分析文字</button>
       </div>
     `;
   }
 
-  async function nativeShareResult() {
-    const resultCard = document.getElementById("resultCard");
-    if (!resultCard) {
-      alert("⚠️ 尚無可分享內容，請先分析");
+  function shareTextOnly() {
+    if (!currentShareText) {
+      alert("⚠️ 尚無分析結果可分享");
       return;
     }
 
-    if (!navigator.share) {
-      alert("❗ 此裝置不支援原生分享，可截圖後手動分享");
-      return;
-    }
-
-    try {
-      const canvas = await html2canvas(resultCard, { scale: 2 });
-      const base64 = canvas.toDataURL("image/png").split(",")[1];
-
-      const response = await fetch("https://script.google.com/macros/s/AKfycbwMo0eah1i6yur2O2trtS-ICiIg4JD5eqHc3TfmLHx3gUXTZnynlZMpouJddOmEDJOo/exec", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: base64 })
-      });
-
-      if (!response.ok) throw new Error(`伺服器錯誤（${response.status}）`);
-
-      const data = await response.json();
-      if (!data.success || !data.imageUrl) throw new Error(data.error || "未收到圖片連結");
-
-      await navigator.share({
+    if (navigator.share) {
+      navigator.share({
         title: "🔮 彥彬數字風水分析",
-        text: currentShareText,
-        url: data.imageUrl
+        text: currentShareText
+      }).catch(err => {
+        alert("❗ 分享已取消或錯誤：" + err.message);
       });
-
-    } catch (err) {
-      alert("❌ 圖片分享失敗：" + err.message);
+    } else {
+      prompt("請手動複製以下文字分享：", currentShareText);
     }
   }
 </script>
